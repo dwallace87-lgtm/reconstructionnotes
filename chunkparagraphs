@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Chunking the Reading – 15-Word Gist Organizer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg: #f7fafc;
+      --card-bg: #ffffff;
+      --border: #cbd5e1;
+      --accent: #2563eb;
+      --accent-soft: #dbeafe;
+      --text-main: #111827;
+      --text-muted: #4b5563;
+      --heading: #0f172a;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: var(--bg);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text-main);
+    }
+
+    body {
+      display: flex;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .page {
+      width: 100%;
+      max-width: 1050px;
+      background: var(--card-bg);
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      box-shadow: 0 12px 30px rgba(15, 23, 42, 0.10);
+      padding: 20px 28px 24px;
+    }
+
+    @media print {
+      body {
+        background: #ffffff;
+        padding: 0;
+      }
+      .page {
+        max-width: none;
+        border-radius: 0;
+        box-shadow: none;
+        border: none;
+      }
+    }
+
+    .title-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 6px;
+    }
+
+    .title-icon {
+      font-size: 52px;
+      line-height: 1;
+      filter: drop-shadow(0 3px 4px rgba(0,0,0,0.25));
+    }
+
+    .title-text {
+      font-size: 26px;
+      font-weight: 800;
+      color: var(--heading);
+      letter-spacing: 0.02em;
+    }
+
+    .subtitle {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+    }
+
+    .info-row {
+      display: grid;
+      grid-template-columns: 2.3fr 1.1fr 1.1fr;
+      gap: 16px;
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    .info-block {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      white-space: nowrap;
+    }
+
+    .info-label {
+      font-weight: 600;
+      color: var(--text-main);
+      font-size: 13px;
+    }
+
+    .info-line {
+      border-bottom: 1px solid var(--border);
+      flex: 1;
+      height: 18px;
+    }
+
+    .title-line-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 14px;
+      font-size: 14px;
+    }
+
+    .title-label {
+      font-weight: 600;
+      white-space: nowrap;
+      font-size: 13px;
+    }
+
+    .title-line {
+      border-bottom: 1px solid var(--border);
+      flex: 1;
+      height: 18px;
+    }
+
+    .directions-box {
+      border-radius: 10px;
+      border: 1px solid var(--accent);
+      background: var(--accent-soft);
+      padding: 10px 14px 10px;
+      margin-bottom: 12px;
+    }
+
+    .directions-heading {
+      font-weight: 700;
+      font-size: 15px;
+      color: var(--accent);
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .directions-heading span.emoji {
+      font-size: 18px;
+    }
+
+    .directions-list {
+      margin: 0;
+      padding-left: 20px;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .directions-list li {
+      margin-bottom: 2px;
+    }
+
+    .directions-list li:last-child {
+      margin-bottom: 0;
+    }
+
+    .table-wrapper {
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      table-layout: fixed;
+      font-size: 13px;
+    }
+
+    thead {
+      background: #eef2ff;
+    }
+
+    th, td {
+      border-bottom: 1px solid var(--border);
+      padding: 6px 6px 8px;
+      vertical-align: top;
+    }
+
+    th {
+      text-align: left;
+      font-weight: 700;
+      color: var(--heading);
+    }
+
+    th:nth-child(1) {
+      width: 9%;
+      text-align: center;
+    }
+
+    th:nth-child(2) {
+      width: 33%;
+    }
+
+    th:nth-child(3) {
+      width: 58%;
+    }
+
+    tbody tr:nth-child(even) {
+      background: #f9fafb;
+    }
+
+    tbody tr:nth-child(odd) {
+      background: #ffffff;
+    }
+
+    td {
+      position: relative;
+      padding-top: 10px;
+      padding-bottom: 10px;
+    }
+
+    tbody td {
+      border-bottom: 1px dashed #e5e7eb;
+    }
+
+    tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    /* "Lined paper" effect inside cells for writing */
+    .lines {
+      position: relative;
+      height: 58px;
+    }
+
+    .lines::before,
+    .lines::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      border-bottom: 1px dashed #d1d5db;
+    }
+
+    .lines::before {
+      top: 45%;
+    }
+
+    .lines::after {
+      bottom: 0;
+    }
+
+    .paragraph-num {
+      text-align: center;
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    .footer-note {
+      margin-top: 8px;
+      font-size: 11px;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .footer-note span.emoji {
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <!-- Header -->
+    <div class="title-row">
+      <div class="title-icon">🌍</div>
+      <div class="title-text">
+        Chunking the Reading: 15-Word Gist Organizer
+      </div>
+    </div>
+    <div class="subtitle">Use this to capture the main idea of each paragraph in your own words.</div>
+
+    <!-- Name / Class / Date -->
+    <div class="info-row">
+      <div class="info-block">
+        <span class="info-label">Name:</span>
+        <span class="info-line"></span>
+      </div>
+      <div class="info-block">
+        <span class="info-label">Class:</span>
+        <span class="info-line"></span>
+      </div>
+      <div class="info-block">
+        <span class="info-label">Date:</span>
+        <span class="info-line"></span>
+      </div>
+    </div>
+
+    <!-- Title of Reading -->
+    <div class="title-line-row">
+      <span class="title-label">Title of Reading:</span>
+      <span class="title-line"></span>
+    </div>
+
+    <!-- Directions -->
+    <div class="directions-box">
+      <div class="directions-heading">
+        <span class="emoji">📝</span>
+        <span>Directions:</span>
+      </div>
+      <ol class="directions-list">
+        <li>Read one paragraph at a time.</li>
+        <li>Underline or highlight important words, people, places, and dates.</li>
+        <li>In the box, write the main idea of that paragraph in <strong>15 words or less</strong> using your own words.</li>
+      </ol>
+    </div>
+
+    <!-- Table -->
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>Paragraph #</th>
+            <th>Important Words / Names / Dates</th>
+            <th>Main Idea in 15 Words or Less<br>(Your Own Words)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="paragraph-num">1</td>
+            <td><div class="lines"></div></td>
+            <td><div class="lines"></div></td>
+          </tr>
+          <tr>
+            <td class="paragraph-num">2</td>
+            <td><div class="lines"></div></td>
+            <td><div class="lines"></div></td>
+          </tr>
+          <tr>
+            <td class="paragraph-num">3</td>
+            <td><div class="lines"></div></td>
+            <td><div class="lines"></div></td>
+          </tr>
+          <tr>
+            <td class="paragraph-num">4</td>
+            <td><div class="lines"></div></td>
+            <td><div class="lines"></div></td>
+          </tr>
+          <tr>
+            <td class="paragraph-num">5</td>
+            <td><div class="lines"></div></td>
+            <td><div class="lines"></div></td>
+          </tr>
+          <tr>
+            <td class="paragraph-num">6</td>
+            <td><div class="lines"></div></td>
+            <td><div class="lines"></div></td>
+          </tr>
+          <tr>
+            <td class="paragraph-num">7</td>
+            <td><div class="lines"></div></td>
+            <td><div class="lines"></div></td>
+          </tr>
+          <tr>
+            <td class="paragraph-num">8</td>
+            <td><div class="lines"></div></td>
+            <td><div class="lines"></div></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="footer-note">
+      <span class="emoji">💡</span>
+      <span>Tip: Try to keep it under 15 words. Focus on the big idea, not every detail.</span>
+    </div>
+  </div>
+</body>
+</html>
