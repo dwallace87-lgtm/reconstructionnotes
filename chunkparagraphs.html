@@ -2,285 +2,407 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Chunking the Reading: 15-Word Gist Organizer</title>
+  <title>Reconstruction in the North – Video Notes</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
-    * { box-sizing: border-box; }
+    :root {
+      --bg: #f5f7fb;
+      --ink: #222222;
+      --accent1: #2c73c9;
+      --accent2: #1f8a70;
+      --accent3: #c96f2c;
+      --accent4: #7a3fb1;
+      --border: #cfd4dd;
+      --line: #d9dde8;
+    }
 
-    html, body {
-      margin: 0;
-      padding: 0;
-      font-family: "Trebuchet MS", system-ui, sans-serif;
-      background: #ffffff;
-      color: #000;
+    * {
+      box-sizing: border-box;
+    }
+
+    @page {
+      size: landscape;
+      margin: 0.5in;
     }
 
     body {
-      display: flex;
-      justify-content: center;
-      padding: 10px;
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--ink);
     }
 
     .page {
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      align-items: stretch;
+      justify-content: center;
+    }
+
+    .sheet {
       width: 100%;
-      max-width: 1100px;
-      border: 2px solid #000;
-      padding: 8px 16px 14px;
+      max-width: 1200px;
+      margin: 0.25in auto;
+      padding: 0.5rem 0.75rem 0.75rem;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.05);
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
     }
 
-    @media print {
-      body { padding: 0; }
-      .page { max-width: none; border-width: 1.5px; }
-    }
-
-    .top-row {
+    .header {
       display: flex;
       justify-content: space-between;
-      font-size: 14px;
-      margin-bottom: 4px;
+      align-items: flex-end;
+      border-bottom: 2px solid var(--border);
+      padding-bottom: 0.25rem;
+      margin-bottom: 0.1rem;
     }
 
-    .top-item {
-      flex: 1;
-      margin-right: 16px;
-      white-space: nowrap;
-    }
-
-    .top-item:last-child {
-      margin-right: 0;
-      text-align: right;
-    }
-
-    .top-label {
-      font-weight: 600;
-      margin-right: 4px;
-    }
-
-    .top-line {
-      border-bottom: 1px solid #000;
-      display: inline-block;
-      min-width: 120px;
-      height: 14px;
+    .title-block {
+      display: flex;
+      flex-direction: column;
+      gap: 0.1rem;
     }
 
     .title {
-      text-align: center;
-      margin: 2px 0;
-      letter-spacing: 0.06em;
-    }
-
-    .title-main {
-      font-size: 26px;
-      font-weight: 800;
-    }
-
-    .title-sub {
-      font-size: 16px;
-      font-weight: 600;
-      margin-top: 2px;
-    }
-
-    .title-emoji {
-      font-size: 32px;
-      margin-right: 6px;
-      vertical-align: middle;
-    }
-
-    .topic-row {
-      text-align: center;
-      margin-top: 2px;
-      margin-bottom: 4px;
-      font-size: 13px;
-    }
-
-    .topic-label {
-      font-weight: 600;
-      margin-right: 4px;
-    }
-
-    .topic-line {
-      border-bottom: 1px solid #000;
-      display: inline-block;
-      min-width: 260px;
-      height: 14px;
-    }
-
-    .directions {
-      font-size: 11px;
-      text-align: center;
-      margin-bottom: 6px;
-    }
-
-    .directions span {
-      font-weight: 600;
-    }
-
-    .table-wrapper {
-      border: 1.5px solid #000;
-      margin-top: 4px;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      table-layout: fixed;
-      font-size: 12px;
-    }
-
-    thead th {
-      border-bottom: 1.5px solid #000;
-      border-right: 1px solid #000;
-      padding: 4px 2px;
-      text-align: center;
-      font-size: 14px;
-      font-weight: 800;
-    }
-
-    thead th:last-child {
-      border-right: none;
-    }
-
-    thead .sub {
-      font-weight: 600;
-      font-size: 12px;
-      margin-top: 2px;
-    }
-
-    tbody td {
-      border-right: 1px solid #000;
-      border-bottom: 1px solid #000;
-      padding: 4px 4px 6px;
-      vertical-align: top;
-    }
-
-    tbody tr:last-child td {
-      border-bottom: none;
-    }
-
-    tbody td:last-child {
-      border-right: none;
-    }
-
-    .para-number {
-      text-align: center;
+      font-size: 1.2rem;
       font-weight: 700;
-      font-size: 14px;
+      color: var(--accent1);
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
     }
 
-    /* lined writing area */
-    .lined {
-      height: 70px;
+    .subtitle {
+      font-size: 0.8rem;
+      color: #555;
+    }
+
+    .info-line {
+      display: flex;
+      gap: 0.5rem;
+      font-size: 0.7rem;
+    }
+
+    .info-label {
+      font-weight: 600;
+      margin-right: 0.15rem;
+    }
+
+    .small-input {
+      min-width: 90px;
+      border-bottom: 1px solid var(--border);
+      padding: 0 0.1rem;
+    }
+
+    .section-row {
+      display: grid;
+      grid-template-columns: 1.1fr 1.1fr;
+      gap: 0.4rem;
+    }
+
+    .box {
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      padding: 0.4rem 0.45rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+      background: #fdfdff;
+    }
+
+    .box-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 0.25rem;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 0.1rem;
+    }
+
+    .box-title {
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .tag {
+      font-size: 0.6rem;
+      font-weight: 600;
+      padding: 0.08rem 0.25rem;
+      border-radius: 999px;
+      color: white;
+      white-space: nowrap;
+    }
+
+    .tag-context { background: var(--accent1); }
+    .tag-significance { background: var(--accent3); }
+    .tag-issue { background: var(--accent4); }
+    .tag-efforts { background: var(--accent2); }
+
+    .prompt {
+      font-size: 0.65rem;
+      line-height: 1.3;
+      color: #444;
+    }
+
+    .mini-label {
+      font-size: 0.65rem;
+      font-weight: 600;
+      margin-top: 0.1rem;
+    }
+
+    .lines {
+      flex: 1;
+      border-radius: 4px;
+      border: 1px dashed #d3d7e5;
       background-image: repeating-linear-gradient(
         to bottom,
-        transparent 0px,
+        transparent,
         transparent 11px,
-        #000 12px
+        var(--line) 11px,
+        var(--line) 12px
       );
-      background-size: 100% 12px;
+      padding: 0.2rem 0.3rem;
+      font-size: 0.7rem;
+      min-height: 2.1rem;
+    }
+
+    .lines.tall {
+      min-height: 3.1rem;
+    }
+
+    .lines.x-tall {
+      min-height: 4.2rem;
+    }
+
+    .bullet-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.25rem;
+    }
+
+    .inline-choice {
+      font-size: 0.65rem;
+      margin-top: 0.1rem;
+    }
+
+    .inline-choice span {
+      margin-right: 0.4rem;
+    }
+
+    @media print {
+      body {
+        background: white;
+      }
+      .page {
+        width: auto;
+        height: auto;
+      }
+      .sheet {
+        margin: 0;
+        max-width: none;
+        box-shadow: none;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="page">
-    <!-- Name / Class / Date -->
-    <div class="top-row">
-      <div class="top-item">
-        <span class="top-label">Name:</span>
-        <span class="top-line"></span>
+<div class="page">
+  <div class="sheet">
+    <header class="header">
+      <div class="title-block">
+        <div class="title">Reconstruction in the North</div>
+        <div class="subtitle">Video Note Taking Worksheet</div>
       </div>
-      <div class="top-item">
-        <span class="top-label">Class:</span>
-        <span class="top-line"></span>
+      <div class="info-line">
+        <div><span class="info-label">Name:</span><span class="small-input"></span></div>
+        <div><span class="info-label">Class:</span><span class="small-input"></span></div>
+        <div><span class="info-label">Date:</span><span class="small-input"></span></div>
       </div>
-      <div class="top-item">
-        <span class="top-label">Date:</span>
-        <span class="top-line"></span>
+    </header>
+
+    <!-- Row 1: Event and Context -->
+    <section class="section-row">
+      <div class="box">
+        <div class="box-header">
+          <div class="box-title">Event & Image Check</div>
+          <span class="tag tag-context">Context</span>
+        </div>
+        <div class="prompt">
+          While you watch, look at the picture of African Americans voting in 1867 and listen for what the speaker says about Reconstruction in the North.
+        </div>
+        <div class="mini-label">1. Who is voting in the picture?</div>
+        <div class="lines tall"></div>
+
+        <div class="mini-label">2. What does this show is changing during Reconstruction?</div>
+        <div class="lines tall"></div>
+
+        <div class="mini-label">3. In the video, Reconstruction happens after which big event?</div>
+        <div class="lines tall"></div>
       </div>
-    </div>
 
-    <!-- Title -->
-    <div class="title">
-      <div class="title-main">
-        <span class="title-emoji">🌍</span>
-        CHUNKING THE READING
+      <div class="box">
+        <div class="box-header">
+          <div class="box-title">When, Where, Who</div>
+          <span class="tag tag-context">Context</span>
+        </div>
+        <div class="mini-label">4. Where is Reconstruction affecting people?</div>
+        <div class="inline-choice">
+          <span>[ ] Only the South</span>
+          <span>[ ] Only the North</span>
+          <span>[ ] Both North and South</span>
+        </div>
+        <div class="mini-label">South note (what is happening in the South in the video):</div>
+        <div class="lines tall"></div>
+
+        <div class="mini-label">North note (what is happening in the North in the video):</div>
+        <div class="lines tall"></div>
+
+        <div class="mini-label">5. People and groups you hear named:</div>
+        <div class="lines tall"></div>
       </div>
-      <div class="title-sub">15-Word Gist Organizer</div>
-    </div>
+    </section>
 
-    <!-- Topic / Text -->
-    <div class="topic-row">
-      <span class="topic-label">Title of Reading:</span>
-      <span class="topic-line"></span>
-    </div>
+    <!-- Row 2: What, How, Why, Conflict -->
+    <section class="section-row">
+      <div class="box">
+        <div class="box-header">
+          <div class="box-title">What is Reconstruction</div>
+          <span class="tag tag-context">Context</span>
+        </div>
+        <div class="prompt">
+          Use what you hear to explain what the government is trying to do during Reconstruction.
+        </div>
+        <div class="mini-label">6. In your words, Reconstruction is a time when the government tries to:</div>
+        <div class="lines x-tall"></div>
 
-    <!-- Directions -->
-    <div class="directions">
-      Directions: Read one paragraph at a time. Underline key words and dates.  
-      Then write the <span>main idea in 15 words or less</span> in your own words.
-    </div>
+        <div class="mini-label">7. Amendments mentioned in the video:</div>
+        <div class="bullet-row">
+          <div>
+            <div class="mini-label">13th Amendment</div>
+            <div class="prompt">It ends what?</div>
+            <div class="lines"></div>
+          </div>
+          <div>
+            <div class="mini-label">14th Amendment</div>
+            <div class="prompt">It gives what status to former slaves?</div>
+            <div class="lines"></div>
+          </div>
+        </div>
+        <div>
+          <div class="mini-label">15th Amendment</div>
+          <div class="prompt">It gives who the right to vote?</div>
+          <div class="lines tall"></div>
+        </div>
+      </div>
 
-    <!-- Main Table -->
-    <div class="table-wrapper">
-      <table>
-        <thead>
-          <tr>
-            <th>
-              Paragraph #
-            </th>
-            <th>
-              Important Words / Names / Dates
-              <div class="sub">(jot key terms)</div>
-            </th>
-            <th>
-              Main Idea in 15 Words or Less
-              <div class="sub">(your own words)</div>
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td class="para-number">1</td>
-            <td><div class="lined"></div></td>
-            <td><div class="lined"></div></td>
-          </tr>
-          <tr>
-            <td class="para-number">2</td>
-            <td><div class="lined"></div></td>
-            <td><div class="lined"></div></td>
-          </tr>
-          <tr>
-            <td class="para-number">3</td>
-            <td><div class="lined"></div></td>
-            <td><div class="lined"></div></td>
-          </tr>
-          <tr>
-            <td class="para-number">4</td>
-            <td><div class="lined"></div></td>
-            <td><div class="lined"></div></td>
-          </tr>
-          <tr>
-            <td class="para-number">5</td>
-            <td><div class="lined"></div></td>
-            <td><div class="lined"></div></td>
-          </tr>
-          <tr>
-            <td class="para-number">6</td>
-            <td><div class="lined"></div></td>
-            <td><div class="lined"></div></td>
-          </tr>
-          <tr>
-            <td class="para-number">7</td>
-            <td><div class="lined"></div></td>
-            <td><div class="lined"></div></td>
-          </tr>
-          <tr>
-            <td class="para-number">8</td>
-            <td><div class="lined"></div></td>
-            <td><div class="lined"></div></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+      <div class="box">
+        <div class="box-header">
+          <div class="box-title">Why there is still conflict</div>
+          <span class="tag tag-context">Context</span>
+        </div>
+        <div class="prompt">
+          Listen for problems, arguments, or unfair treatment during Reconstruction in the North.
+        </div>
+        <div class="mini-label">8. Problem or disagreement you hear in the video:</div>
+        <div class="lines tall"></div>
+
+        <div class="mini-label">9. Another problem or disagreement:</div>
+        <div class="lines tall"></div>
+
+        <div class="mini-label">10. How do some Northern states react to Black men voting?</div>
+        <div class="lines x-tall"></div>
+      </div>
+    </section>
+
+    <!-- Row 3: Significance & Constitutional Issue -->
+    <section class="section-row">
+      <div class="box">
+        <div class="box-header">
+          <div class="box-title">Short Term Effects</div>
+          <span class="tag tag-significance">Significance</span>
+        </div>
+        <div class="prompt">
+          Short term means what changes right away in daily life, work, and politics.
+        </div>
+
+        <div class="mini-label">11. Where do many freedmen move and why?</div>
+        <div class="lines tall"></div>
+
+        <div class="mini-label">12. What kind of jobs do many African Americans work in the North?</div>
+        <div class="lines tall"></div>
+
+        <div class="mini-label">13. Problems workers face in the video:</div>
+        <div class="lines tall"></div>
+      </div>
+
+      <div class="box">
+        <div class="box-header">
+          <div class="box-title">Long Term Effects & Movements</div>
+          <span class="tag tag-significance">Significance</span>
+        </div>
+        <div class="prompt">
+          Long term means effects that show up many years later.
+        </div>
+
+        <div class="mini-label">14. What new movement starts after the 15th Amendment?</div>
+        <div class="lines tall"></div>
+
+        <div class="mini-label">15. Why are many women abolitionists angry about the 15th Amendment?</div>
+        <div class="lines tall"></div>
+
+        <div class="mini-label">16. One way this affects the future of voting or rights in the United States:</div>
+        <div class="lines tall"></div>
+      </div>
+    </section>
+
+    <!-- Row 4: Issue & Efforts -->
+    <section class="section-row">
+      <div class="box">
+        <div class="box-header">
+          <div class="box-title">Constitutional or Civic Issue</div>
+          <span class="tag tag-issue">Issue</span>
+        </div>
+        <div class="prompt">
+          The video talks about who should have the right to vote in the United States.
+        </div>
+
+        <div class="mini-label">17. After the 15th Amendment in the video:</div>
+        <div class="mini-label">Who can vote?</div>
+        <div class="lines"></div>
+        <div class="mini-label">Who still cannot vote yet?</div>
+        <div class="lines"></div>
+
+        <div class="mini-label">18. One way Northern states still limit Black voting in the video:</div>
+        <div class="lines tall"></div>
+      </div>
+
+      <div class="box">
+        <div class="box-header">
+          <div class="box-title">Efforts & Impact</div>
+          <span class="tag tag-efforts">Efforts</span>
+        </div>
+        <div class="prompt">
+          Listen for people, groups, and the government trying to solve these problems.
+        </div>
+
+        <div class="mini-label">19. Government efforts mentioned in the video (laws or actions):</div>
+        <div class="lines tall"></div>
+
+        <div class="mini-label">20. Efforts by African Americans or women activists:</div>
+        <div class="lines tall"></div>
+
+        <div class="mini-label">21. In your opinion, based on the video, how successful were these efforts in the short term or long term?</div>
+        <div class="lines x-tall"></div>
+      </div>
+    </section>
   </div>
+</div>
 </body>
 </html>
